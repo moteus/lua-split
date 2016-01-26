@@ -289,5 +289,29 @@ end)
 
 end
 
+local _ENV = TEST_CASE'split.error' if ENABLE then
+
+local it = IT(_ENV or _M)
+
+it("split nil as string", function()
+  assert_error(function()
+    split()
+  end)
+end)
+
+it("split table as string", function()
+  assert_error(function()
+    split({})
+  end)
+end)
+
+it("split string with {} as sep", function()
+  assert_error(function()
+    split("hello", {})
+  end)
+end)
+
+end
+
 RUN()
 

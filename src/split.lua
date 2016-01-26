@@ -11,6 +11,9 @@ local function split(str, sep, plain)
   local b, res = 0, {}
   sep = sep or '%s+'
 
+  assert(type(sep) == 'string')
+  assert(type(str) == 'string')
+
   if #sep == 0 then
     for i = 1, #str do
       res[#res + 1] = string.sub(str, i, i)
@@ -34,6 +37,9 @@ end
 
 local function split_iter(str, sep, plain)
   sep = sep or '%s+'
+
+  assert(type(sep) == 'string')
+  assert(type(str) == 'string')
 
   if #sep == 0 then
     local i = 0
