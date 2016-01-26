@@ -1,0 +1,38 @@
+language: c
+
+sudo: false
+
+env:
+  global:
+    - LUAROCKS=2.2.2
+  matrix:
+    - LUA=lua5.1
+    - LUA=lua5.2
+    - LUA=lua5.3
+    - LUA=luajit     # latest stable version (2.0.3)
+    - LUA=luajit2.0  # current head of 2.0 branch
+    - LUA=luajit2.1  # current head of 2.1 branch
+
+branches:
+  only:
+    - master
+
+before_install:
+  - source .travis/setenv_lua.sh
+  - luarocks install luacov-coveralls
+  - luarocks install lunitx
+
+install:
+  - luarocks make rockspecs/split-scm-0.rockspec
+
+script:
+  - cd test
+  - lunit.sh test.lua
+
+after_success:
+  - luacov-coveralls -v
+
+notifications:
+  email:
+    on_success: change
+    on_failure: always
