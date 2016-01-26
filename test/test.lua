@@ -20,6 +20,8 @@ it("split using plain text", function()
   assert_equal("ab", s[1])
   assert_equal("cd", s[2])
   assert_nil(s[3])
+
+  assert_equal("ab.cd", table.concat(s, '.'))
 end)
 
 it("split using regex", function()
@@ -33,12 +35,16 @@ it("split empty string", function()
   local s = assert_table(split.split("", "|", true))
   assert_equal("",   s[1])
   assert_nil(        s[2])
+
+  assert_equal("", table.concat(s, '|'))
 end)
 
 it("split string without sep", function()
   local s = assert_table(split.split("ab", "|", true))
   assert_equal("ab", s[1])
   assert_nil(        s[2])
+
+  assert_equal("ab", table.concat(s, '|'))
 end)
 
 it("split string ending with sep", function()
@@ -46,6 +52,8 @@ it("split string ending with sep", function()
   assert_equal("ab", s[1])
   assert_equal("",   s[2])
   assert_nil(        s[3])
+
+  assert_equal("ab|", table.concat(s, '|'))
 end)
 
 it("split string equal to sep", function()
@@ -53,6 +61,8 @@ it("split string equal to sep", function()
   assert_equal("",   s[1])
   assert_equal("",   s[2])
   assert_nil(        s[3])
+
+  assert_equal("|", table.concat(s, '|'))
 end)
 
 it("split string starting with sep", function()
@@ -60,6 +70,8 @@ it("split string starting with sep", function()
   assert_equal("",   s[1])
   assert_equal("ab", s[2])
   assert_nil(        s[3])
+
+  assert_equal("|ab", table.concat(s, '|'))
 end)
 
 it("split string with ended double sep", function()
@@ -68,6 +80,8 @@ it("split string with ended double sep", function()
   assert_equal("",   s[2])
   assert_equal("",   s[3])
   assert_nil(        s[4])
+
+  assert_equal("ab||", table.concat(s, '|'))
 end)
 
 it("split string with double sep", function()
@@ -76,6 +90,8 @@ it("split string with double sep", function()
   assert_equal("",   s[2])
   assert_equal("cd", s[3])
   assert_nil(        s[4])
+
+  assert_equal("ab||cd", table.concat(s, '|'))
 end)
 
 it("split string with empty sep", function()
@@ -86,6 +102,8 @@ it("split string with empty sep", function()
   assert_equal("c", s[4])
   assert_equal("d", s[5])
   assert_nil(       s[6])
+
+  assert_equal("ab cd", table.concat(s))
 end)
 
 it("split string with nil sep", function()
