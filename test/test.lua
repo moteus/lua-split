@@ -11,7 +11,38 @@ local nreturn, is_equal = utils.nreturn, utils.is_equal
 
 local ENABLE = true
 
-local _ENV = TEST_CASE'split.basic' if ENABLE then
+local _ENV = TEST_CASE'split.api' if ENABLE then
+
+if not split._URL then test = SKIP_CASE'#TODO update library' else
+
+local it = IT(_ENV or _M)
+
+it('should have API 1', function()
+  assert_function(split.split)
+  assert_function(split.spliterator)
+  assert_string(split._VERSION)
+  assert_string(split._AUTHOR)
+  assert_string(split._URL)
+  assert_string(split._LICENSE)
+end)
+
+it('should have API 2', function()
+  assert_function(split.split)
+  assert_function(split.iter)
+  assert_function(split.first)
+  assert_function(split.unpack)
+  assert_pass(function() split('a',';') end)
+  assert_string(split._VERSION)
+  assert_string(split._AUTHOR)
+  assert_string(split._URL)
+  assert_string(split._LICENSE)
+end)
+
+end end
+
+local function basic_split_test(name, split)
+
+local _ENV = TEST_CASE(name)
 
 local it = IT(_ENV or _M)
 
@@ -22,6 +53,15 @@ it("split using plain text", function()
   assert_nil(s[3])
 
   assert_equal("ab.cd", table.concat(s, '.'))
+end)
+
+it("split using plain text2", function()
+  local s = assert_table(split.split("ab.?cd", ".?", true))
+  assert_equal("ab", s[1])
+  assert_equal("cd", s[2])
+  assert_nil(s[3])
+
+  assert_equal("ab.?cd", table.concat(s, '.?'))
 end)
 
 it("split using regex", function()
@@ -37,6 +77,14 @@ it("split empty string", function()
   assert_nil(        s[2])
 
   assert_equal("", table.concat(s, '|'))
+end)
+
+it("split empty string with double sep", function()
+  local s = assert_table(split.split("", "||", true))
+  assert_equal("",   s[1])
+  assert_nil(        s[2])
+
+  assert_equal("", table.concat(s, '||'))
 end)
 
 it("split string without sep", function()
@@ -114,6 +162,16 @@ it("split string with nil sep", function()
 end)
 
 end
+
+if ENABLE then basic_split_test('split.basic', split) end
+
+if ENABLE then basic_split_test('split.iter.basic', {split = function(...)
+  local t = {}
+  for ch in split.iter(...) do
+    t[#t + 1] = ch
+  end
+  return t
+end}) end
 
 local _ENV = TEST_CASE'split.first' if ENABLE then
 
@@ -277,6 +335,17 @@ it("split string with empty sep", function()
   assert_equal(5, n)
 end)
 
+it("split string with double sep", function()
+  local n = 0
+  for s in split.iter("ab;;cd;;", ";;", true) do
+    n = n + 1
+    if n == 1 then assert_equal("ab",    s) end
+    if n == 2 then assert_equal("cd",    s) end
+    if n == 3 then assert_equal("",      s) end
+  end
+  assert_equal(3, n)
+end)
+
 it("split string with nil sep", function()
   local n = 0
   for s in split.iter("ab cd") do
@@ -310,6 +379,12 @@ it("split string with {} as sep", function()
     split("hello", {})
   end)
 end)
+
+-- it("split sep matched to empty string", function()
+--   assert_error(function()
+--     split("hello", '%s*')
+--   end)
+-- end)
 
 end
 
