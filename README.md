@@ -43,3 +43,31 @@ for word in split.iter('hello world', '%s') do
   print(word)
 end
 ```
+
+Example
+```Lua
+-- decode header value like:
+-- `value1;key1=1;key2=2,value2;key1=1;key2=2`
+-- result:
+-- {
+--   {value1,{key=1,key2=2}};
+--   {value2,{key=1,key2=2}};
+-- }
+function decode_header(str)
+  local res = {}
+  for ext in split.iter(str, "%s*,%s*") do
+    local name, tail = split.first(ext, '%s*;%s*')
+    if #name > 0 then
+      local opt  = {}
+      if tail then
+        for param in split.iter(tail, '%s*;%s*') do
+          local k, v = split.first(param, '%s*=%s*')
+          opt[k] = v
+        end
+      end
+      res[#res + 1] = {name, opt}
+    end
+  end
+  return res
+end
+```

@@ -380,11 +380,11 @@ it("split string with {} as sep", function()
   end)
 end)
 
--- it("split sep matched to empty string", function()
---   assert_error(function()
---     split("hello", '%s*')
---   end)
--- end)
+it("split sep matched to empty string", function()
+  assert_error(function()
+    split("hello", '%s*')
+  end)
+end)
 
 end
 
