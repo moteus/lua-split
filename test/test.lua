@@ -226,6 +226,13 @@ it("split empty string", function()
   assert_equal("",   s1)
 end)
 
+it("split with empty separator", function()
+  local n, s1, s2 = nreturn(split.first("ab", ""))
+  assert_equal(2,    n )
+  assert_equal("a",   s1)
+  assert_equal("b",   s2)
+end)
+
 end end
 
 local _ENV = TEST_CASE'split.iter'  if ENABLE then
@@ -383,6 +390,36 @@ end)
 it("split sep matched to empty string", function()
   assert_error(function()
     split("hello", '%s*')
+  end)
+end)
+
+end
+
+local _ENV = TEST_CASE'split.first.error' if ENABLE then
+
+local it = IT(_ENV or _M)
+
+it("split nil as string", function()
+  assert_error(function()
+    split.first()
+  end)
+end)
+
+it("split table as string", function()
+  assert_error(function()
+    split.first({})
+  end)
+end)
+
+it("split string with {} as sep", function()
+  assert_error(function()
+    split.first("hello", {})
+  end)
+end)
+
+it("split sep matched to empty string", function()
+  assert_error(function()
+    split.first("hello", '%s*')
   end)
 end)
 

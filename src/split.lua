@@ -19,6 +19,10 @@
 
 local unpack = unpack or table.unpack
 
+local function is_match_empty(pat, plain)
+  return not not string.find('', pat, nil, plain)
+end
+
 local function split(str, sep, plain)
   local b, res = 0, {}
   sep = sep or '%s+'
@@ -32,6 +36,8 @@ local function split(str, sep, plain)
     end
     return res
   end
+
+  assert(not is_match_empty(sep, plain), 'delimiter can not match empty string')
 
   while b <= #str do
     local e, e2 = string.find(str, sep, b, plain)
@@ -62,6 +68,8 @@ local function split_iter(str, sep, plain)
     end
   end
 
+  assert(not is_match_empty(sep, plain), 'delimiter can not match empty string')
+
   local b, eol = 0
   return function()
     if b > #str then
@@ -89,6 +97,17 @@ end
 local function usplit(...) return unpack(split(...)) end
 
 local function split_first(str, sep, plain)
+  sep = sep or '%s+'
+
+  assert(type(sep) == 'string')
+  assert(type(str) == 'string')
+
+  if #sep == 0 then
+    return string.sub(str, 1, 1), string.sub(str, 2)
+  end
+
+  assert(not is_match_empty(sep, plain), 'delimiter can not match empty string')
+
   local e, e2 = string.find(str, sep, nil, plain)
   if e then
     return string.sub(str, 1, e - 1), string.sub(str, e2 + 1)
