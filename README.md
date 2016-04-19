@@ -39,7 +39,7 @@ key, val = split.first('pass=hello=world', '=', true)
 Create iterator to iterate over substrings
 
 ```Lua
-for word in split.iter('hello world', '%s') do
+for word in split.each('hello world', '%s') do
   print(word)
 end
 ```
@@ -55,12 +55,12 @@ Example
 -- }
 function decode_header(str)
   local res = {}
-  for ext in split.iter(str, "%s*,%s*") do
+  for ext in split.each(str, "%s*,%s*") do
     local name, tail = split.first(ext, '%s*;%s*')
     if #name > 0 then
       local opt  = {}
       if tail then
-        for param in split.iter(tail, '%s*;%s*') do
+        for param in split.each(tail, '%s*;%s*') do
           local k, v = split.first(param, '%s*=%s*')
           opt[k] = v
         end

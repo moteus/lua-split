@@ -119,7 +119,7 @@ return setmetatable({
   split      = split;
   unpack     = usplit;
   first      = split_first;
-  iter       = split_iter;
+  each       = split_iter;
 },{
   __call = function(_, ...)
     return split(...)

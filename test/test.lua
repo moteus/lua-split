@@ -28,7 +28,7 @@ end)
 
 it('should have API 2', function()
   assert_function(split.split)
-  assert_function(split.iter)
+  assert_function(split.each)
   assert_function(split.first)
   assert_function(split.unpack)
   assert_pass(function() split('a',';') end)
@@ -165,9 +165,9 @@ end
 
 if ENABLE then basic_split_test('split.basic', split) end
 
-if ENABLE then basic_split_test('split.iter.basic', {split = function(...)
+if ENABLE then basic_split_test('split.each.basic', {split = function(...)
   local t = {}
-  for ch in split.iter(...) do
+  for ch in split.each(...) do
     t[#t + 1] = ch
   end
   return t
@@ -235,13 +235,13 @@ end)
 
 end end
 
-local _ENV = TEST_CASE'split.iter'  if ENABLE then
+local _ENV = TEST_CASE'split.each'  if ENABLE then
 
 local it = IT(_ENV or _M)
 
 it("split using plain text", function()
   local n = 0
-  for s in split.iter("ab.cd", ".", true) do
+  for s in split.each("ab.cd", ".", true) do
     n = n + 1
     if n == 1 then assert_equal("ab", s) end
     if n == 2 then assert_equal("cd", s) end
@@ -251,7 +251,7 @@ end)
 
 it("split using regex", function()
   local n = 0
-  for s in split.iter("ab||", "|+") do
+  for s in split.each("ab||", "|+") do
     n = n + 1
     if n == 1 then assert_equal("ab", s) end
     if n == 2 then assert_equal("",   s) end
@@ -261,7 +261,7 @@ end)
 
 it("split empty string", function()
   local n = 0
-  for s in split.iter("", "|", true) do
+  for s in split.each("", "|", true) do
     n = n + 1
     if n == 1 then assert_equal("",   s) end
   end
@@ -270,7 +270,7 @@ end)
 
 it("split string without sep", function()
   local n = 0
-  for s in split.iter("ab", "|", true) do
+  for s in split.each("ab", "|", true) do
     n = n + 1
     if n == 1 then assert_equal("ab",   s) end
   end
@@ -279,7 +279,7 @@ end)
 
 it("split string ending with sep", function()
   local n = 0
-  for s in split.iter("ab|", "|", true) do
+  for s in split.each("ab|", "|", true) do
     n = n + 1
     if n == 1 then assert_equal("ab",   s) end
     if n == 2 then assert_equal("",     s) end
@@ -289,7 +289,7 @@ end)
 
 it("split string equal to sep", function()
   local n = 0
-  for s in split.iter("|", "|", true) do
+  for s in split.each("|", "|", true) do
     n = n + 1
     if n == 1 then assert_equal("",     s) end
     if n == 2 then assert_equal("",     s) end
@@ -299,7 +299,7 @@ end)
 
 it("split string starting with sep", function()
   local n = 0
-  for s in split.iter("|ab", "|", true) do
+  for s in split.each("|ab", "|", true) do
     n = n + 1
     if n == 1 then assert_equal("",     s) end
     if n == 2 then assert_equal("ab",   s) end
@@ -309,7 +309,7 @@ end)
 
 it("split string with ended double sep", function()
   local n = 0
-  for s in split.iter("ab||", "|", true) do
+  for s in split.each("ab||", "|", true) do
     n = n + 1
     if n == 1 then assert_equal("ab",   s) end
     if n == 2 then assert_equal("",     s) end
@@ -320,7 +320,7 @@ end)
 
 it("split string with double sep", function()
   local n = 0
-  for s in split.iter("ab||cd", "|", true) do
+  for s in split.each("ab||cd", "|", true) do
     n = n + 1
     if n == 1 then assert_equal("ab",   s) end
     if n == 2 then assert_equal("",     s) end
@@ -331,7 +331,7 @@ end)
 
 it("split string with empty sep", function()
   local n = 0
-  for s in split.iter("ab cd", "", true) do
+  for s in split.each("ab cd", "", true) do
     n = n + 1
     if n == 1 then assert_equal("a",    s) end
     if n == 2 then assert_equal("b",    s) end
@@ -344,7 +344,7 @@ end)
 
 it("split string with double sep", function()
   local n = 0
-  for s in split.iter("ab;;cd;;", ";;", true) do
+  for s in split.each("ab;;cd;;", ";;", true) do
     n = n + 1
     if n == 1 then assert_equal("ab",    s) end
     if n == 2 then assert_equal("cd",    s) end
@@ -355,7 +355,7 @@ end)
 
 it("split string with nil sep", function()
   local n = 0
-  for s in split.iter("ab cd") do
+  for s in split.each("ab cd") do
     n = n + 1
     if n == 1 then assert_equal("ab",   s) end
     if n == 2 then assert_equal("cd",   s) end
