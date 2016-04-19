@@ -34,7 +34,7 @@ key, val = split.first('pass=hello=world', '=', true)
 -- key = 'pass' val = 'hello=world'
 ```
 
-#### iter(str, [sep, [plain])
+#### each(str, [sep, [plain])
 
 Create iterator to iterate over substrings
 
