@@ -6,7 +6,7 @@
 
 ***
 
-### Funcionts
+### Functions
 
 #### split(str, [sep, [plain])
 
@@ -27,6 +27,7 @@ a, b = split.unpack('aaa;bbb', ';', true)
 ```
 
 #### first(str, [sep, [plain])
+
 Split first substring result as 2 values
 
 ```Lua
