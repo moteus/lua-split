@@ -1,4 +1,4 @@
-#Lua-Split
+# Lua-Split
 
 [![Build Status](https://travis-ci.org/moteus/lua-split.png)](https://travis-ci.org/moteus/lua-split)
 [![Coverage Status](https://coveralls.io/repos/github/moteus/lua-split/badge.svg?branch=master)](https://coveralls.io/github/moteus/lua-split?branch=master)
